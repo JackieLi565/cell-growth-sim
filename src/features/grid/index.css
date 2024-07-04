@@ -1,0 +1,21 @@
+.grid {
+  display: grid;
+}
+
+.row {
+  display: contents;
+}
+
+.cell {
+  width: 5px;
+  height: 5px;
+  border: 1px solid #763f98;
+}
+
+.cell.empty {
+  background-color: white;
+}
+
+.cell.occupied {
+  background-color: rgb(255, 205, 52);
+}

@@ -1,0 +1,16 @@
+.input {
+  border-radius: 5px;
+  border: 1px, solid, gray;
+  padding: 10px 20px;
+}
+
+.input:focus {
+  outline: 2px solid #a78cc1;
+  outline-offset: 2px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
