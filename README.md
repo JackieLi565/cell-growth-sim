@@ -1,30 +1,35 @@
-# React + TypeScript + Vite
+# Cell Growth Simulation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Getting Started
 
-Currently, two official plugins are available:
+First you will need to clone the repository:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```
+git clone https://github.com/JackieLi565/cell-growth-sim
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+To deploy the application you will either need [Docker](https://www.docker.com/) or [Node.js](https://nodejs.org/en) installed on your machine.
+
+### Docker
+
+To build and run the Docker container, use the following commands:
+
+```
+docker build -t jitto .
+
+docker run -p 3000:80 jitto
+```
+
+### NPM
+
+If you prefer to use NPM:
+
+```
+npm install
+
+npm run build
+
+npm run preview
+```
+
+Once the application is running, you can access it in your web browser at: [http://localhost:3000](http://localhost:3000)
