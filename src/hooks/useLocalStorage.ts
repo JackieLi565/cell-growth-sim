@@ -1,32 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useLocalStorage = <T>(key: string, initialValue: T) => {
-  const readValue = () => {
+  const [error, setError] = useState<string>("");
+  const [storedValue, setStoredValue] = useState<T>(initialValue);
+
+  useEffect(() => {
     if (typeof window === "undefined") {
-      return initialValue;
+      setStoredValue(initialValue);
+      return;
     }
 
     try {
       const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
+      setStoredValue(item ? JSON.parse(item) : initialValue);
     } catch (error) {
-      console.warn(`Error reading localStorage key “${key}”:`, error);
-      return initialValue;
+      setError(`Error parsing localStorage key value '${key}':${error}`);
+      setStoredValue(initialValue);
     }
-  };
+  }, [key]);
 
-  const [storedValue, setStoredValue] = useState<T>(readValue);
-
-  const setValue = (value: T | ((val: T) => T)) => {
+  const setValue = (value: T) => {
     try {
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
+      setStoredValue(value);
       if (typeof window !== "undefined") {
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        window.localStorage.setItem(key, JSON.stringify(value));
+      } else {
+        throw new Error("Object 'window' is undefined");
       }
     } catch (error) {
-      console.warn(`Error setting localStorage key “${key}”:`, error);
+      setError(`Error setting localStorage key '${key}':${error}`);
     }
   };
 
@@ -35,11 +37,13 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
       setStoredValue(initialValue);
       if (typeof window !== "undefined") {
         window.localStorage.removeItem(key);
+      } else {
+        throw new Error("Object 'window' is undefined");
       }
     } catch (error) {
-      console.warn(`Error removing localStorage key “${key}”:`, error);
+      setError(`Error removing localStorage key '${key}':${error}`);
     }
   };
 
-  return { storedValue, setValue, removeValue };
+  return { storedValue, setValue, removeValue, error };
 };

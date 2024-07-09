@@ -1,8 +1,11 @@
+import "./styles.css";
+
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { Input } from "../../components/input/Input";
 import { Button } from "../../components/button/Button";
 import { useUrlParams } from "../../hooks/useUrlParams";
 import { defaultParseUnsignedInt } from "../../utils/defaultParseUnsignedInt";
+import { useHistory } from "../history/api/useHistory";
 
 export interface FormRule {
   interval: number;
@@ -10,17 +13,13 @@ export interface FormRule {
   cols: number;
 }
 
-export interface FormProps {
-  initialValues?: Partial<FormRule>;
-}
-
-export const Form: FC<FormProps> = ({ initialValues }) => {
+export const Form: FC = () => {
+  const { add } = useHistory();
   const { params, setParam } = useUrlParams();
   const [form, setForm] = useState<FormRule>({
     interval: 1000,
     rows: 1,
     cols: 1,
-    ...initialValues,
   });
 
   useEffect(() => {
@@ -46,20 +45,32 @@ export const Form: FC<FormProps> = ({ initialValues }) => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-
-    console.log(form);
+    add(form);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="form-container" onSubmit={handleSubmit}>
       <Input
+        label="Interval"
         min={1}
         name="interval"
         value={form.interval}
         onChange={handleChange}
       />
-      <Input min={1} name="rows" value={form.rows} onChange={handleChange} />
-      <Input min={1} name="cols" value={form.cols} onChange={handleChange} />
+      <Input
+        label="Rows"
+        min={1}
+        name="rows"
+        value={form.rows}
+        onChange={handleChange}
+      />
+      <Input
+        label="Columns"
+        min={1}
+        name="cols"
+        value={form.cols}
+        onChange={handleChange}
+      />
       <Button type="submit">Submit</Button>
     </form>
   );

@@ -1,15 +1,12 @@
 import { FC } from "react";
-import { FormRule } from "../form/Form";
+import { useHistory } from "./api/useHistory";
 
-interface HistoryProps {
-  history: FormRule[];
-}
-
-export const History: FC<HistoryProps> = ({ history }) => {
+export const History: FC = () => {
+  const { history } = useHistory();
   return (
     <div>
-      {history.map((value, index) => (
-        <div key={index}>
+      {Object.entries(history).map(([id, value]) => (
+        <div key={id}>
           <p>{value.interval}</p>
           <p>{value.rows}</p>
           <p>{value.cols}</p>
