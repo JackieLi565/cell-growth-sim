@@ -23,9 +23,9 @@ export const HistoryProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const remove = (id: string) => {
-    const historyCopy = history;
-    delete historyCopy[id];
-    setValue(historyCopy);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { [id]: _, ...rest } = history;
+    setValue(rest);
   };
 
   return (
