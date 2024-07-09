@@ -1,18 +1,16 @@
-import "./App.css";
+import "./styles/App.css";
 import { type FC, useState, useEffect } from "react";
 import { findNewCells, Node } from "./utils/findNewCells";
 import { createGrid } from "./utils/createGrid";
 import { Grid } from "./features/grid/Grid";
-import { ResizeGrid } from "./features/resize-grid/ResizeGrid";
 import { GrowthChart } from "./features/growth-rate/GrowthChart";
-import { Button } from "./components/button/Button";
-import { Input } from "./components/input/Input";
 import { CellVsTime } from "./features/growth-rate/api/CellVsTime";
 import { GrowthTable } from "./features/growth-rate/GrowthTable";
+import { Form } from "./features/form/Form";
 
 const App: FC = () => {
   const [grid, setGrid] = useState<number[][]>(createGrid(80, 80));
-  const [growth, setGrowth] = useState<number>(1000);
+  const [growth, _] = useState<number>(1000);
   const [running, setRunning] = useState<boolean>(false);
   const [growthData, setGrowthData] = useState<CellVsTime[]>([]);
   const [time, setTime] = useState<number>(0);
@@ -70,36 +68,21 @@ const App: FC = () => {
     });
   };
 
-  const handleReset = () => {
-    setRunning(false);
-    setGrowthData([]);
-    setTime(0);
-    setGrid(createGrid(80, 80));
-  };
+  // const handleReset = () => {
+  //   setRunning(false);
+  //   setGrowthData([]);
+  //   setTime(0);
+  //   setGrid(createGrid(80, 80));
+  // };
 
-  const handleIntervalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGrowth(Number(e.target.value));
-  };
+  // const handleIntervalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setGrowth(Number(e.target.value));
+  // };
 
   return (
     <div className="app">
       <Grid grid={grid} onCellClick={handleCellClick} />
-      <form style={{ padding: "20px" }}>
-        <Input
-          min={1}
-          type="number"
-          label="Test"
-          value={growth}
-          onChange={handleIntervalChange}
-        />
-        <ResizeGrid running={running} grid={grid} onGridChange={setGrid} />
-        <div style={{ display: "flex", gap: "5px", marginTop: "20px" }}>
-          <Button onClick={() => setRunning((prev) => !prev)}>
-            {running ? "Pause" : "Start"}
-          </Button>
-          <Button onClick={handleReset}>Reset</Button>
-        </div>
-      </form>
+      <Form />
       <div style={{ display: "flex" }}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <GrowthChart growthData={growthData} />
