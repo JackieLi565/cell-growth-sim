@@ -1,17 +1,13 @@
 import { FC, useEffect, useState } from "react";
-import { CellVsTime } from "./api/CellVsTime";
+import { CellVsTime } from "../api/types";
 
-interface GrowthChart {
-  growthData: CellVsTime[];
+interface GraphProps {
+  data: CellVsTime[];
   height?: number;
   width?: number;
 }
 
-export const GrowthChart: FC<GrowthChart> = ({
-  growthData,
-  height = 400,
-  width = 500,
-}) => {
+export const Graph: FC<GraphProps> = ({ data, height = 400, width = 500 }) => {
   const [dimensions, setDimensions] = useState({
     height,
     width,
@@ -25,15 +21,15 @@ export const GrowthChart: FC<GrowthChart> = ({
   }, [height, width]);
 
   const padding = 40;
-  const maxTime = Math.max(...growthData.map((d) => d.time), 0);
-  const maxCells = Math.max(...growthData.map((d) => d.cells), 0);
+  const maxTime = Math.max(...data.map((d) => d.time), 0);
+  const maxCells = Math.max(...data.map((d) => d.cells), 0);
 
   const xScale = (value: number) =>
     (value / maxTime) * (dimensions.width - padding * 2) + padding;
   const yScale = (value: number) =>
     height - padding - (value / maxCells) * (dimensions.height - padding * 2);
 
-  const linePath = growthData
+  const linePath = data
     .map((d, i) => {
       const x = xScale(d.time);
       const y = yScale(d.cells);

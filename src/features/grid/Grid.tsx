@@ -1,13 +1,10 @@
-import "./index.css";
+import "./styles.css";
 
 import { FC } from "react";
 
-interface GridProps {
-  grid: number[][];
-  onCellClick: (row: number, col: number) => void;
-}
+interface GridProps {}
 
-export const Grid: FC<GridProps> = ({ grid, onCellClick }) => {
+export const Grid: FC<GridProps> = () => {
   return (
     <div
       className="grid"

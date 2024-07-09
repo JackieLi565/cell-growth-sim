@@ -1,15 +1,15 @@
-import "./table.css";
+import "./styles.css";
 
+import { CellVsTime } from "../api/types";
 import { FC } from "react";
-import { CellVsTime } from "./api/CellVsTime";
 
-interface GrowthTable {
-  growthData: CellVsTime[];
+interface TableProps {
+  data: CellVsTime[];
   height?: number;
   width?: number;
 }
 
-export const GrowthTable: FC<GrowthTable> = ({ growthData }) => {
+export const Table: FC<TableProps> = ({ data }) => {
   return (
     <div className="table-container">
       <table>
@@ -20,7 +20,7 @@ export const GrowthTable: FC<GrowthTable> = ({ growthData }) => {
           </tr>
         </thead>
         <tbody>
-          {growthData.map((data, index) => (
+          {data.map((data, index) => (
             <tr key={`${data.time}-${index}`}>
               <td>{data.time}</td>
               <td>{data.cells}</td>

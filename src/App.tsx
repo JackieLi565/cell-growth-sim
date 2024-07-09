@@ -3,10 +3,8 @@ import { type FC, useState, useEffect } from "react";
 import { findNewCells, Node } from "./utils/findNewCells";
 import { createGrid } from "./utils/createGrid";
 import { Grid } from "./features/grid/Grid";
-import { GrowthChart } from "./features/growth-rate/GrowthChart";
-import { CellVsTime } from "./features/growth-rate/api/CellVsTime";
-import { GrowthTable } from "./features/growth-rate/GrowthTable";
 import { Form } from "./features/form/Form";
+import { Data } from "./features/data/Data";
 
 const App: FC = () => {
   const [grid, setGrid] = useState<number[][]>(createGrid(80, 80));
@@ -84,10 +82,7 @@ const App: FC = () => {
       <Grid grid={grid} onCellClick={handleCellClick} />
       <Form />
       <div style={{ display: "flex" }}>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <GrowthChart growthData={growthData} />
-          <GrowthTable growthData={growthData} />
-        </div>
+        <Data data={[]} />
       </div>
     </div>
   );
