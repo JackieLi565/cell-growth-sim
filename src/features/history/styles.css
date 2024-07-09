@@ -1,0 +1,14 @@
+.history-container {
+  max-height: 600px;
+  overflow-y: auto;
+  width: fit-content;
+}
+
+.history {
+  padding: 5px;
+}
+
+.button-container {
+  display: flex;
+  gap: 2px;
+}
