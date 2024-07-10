@@ -107,7 +107,7 @@ Where as each feature in the _Features_ directory follows a recursive feature fo
 ```
 .
 └── [feature-name]
-    ├── api                          # Optional directory for types, hooks, and data dependancies
+    ├── api                          # Optional directory for types, hooks, and data dependencies
     ├── [feature-component-1].tsx
     ├── styles.css
     └── [sub-feature-1]
@@ -142,14 +142,22 @@ As a result, the 'History' feature was implemented, allowing the user to save, d
 
 ## Performance Metrics
 
-I decided to review the performance of my application based on the memory consumption.
+I decided to review the performance of my application based on memory consumption. The performance metrics were based on the following environment:
 
-The performance metrics was based on the following environment:
+- **OS**: Windows 10 Home 64-bit
+- **Browser**: Chrome Version 126.0.6478.127
+- **System memory**: 32GB
 
-- OS: Windows 10 Home 64-bit
-- Browser: Chrome Version 126.0.6478.127
-- System memory: 32GB
+Below is a table summarizing the memory consumption for different grid sizes:
 
-grid - 20 x 20 - 71.3 mb
-grid - 200 x 200 - 140 mb
-grid - 400 x 400 - 349 mb
+| Grid Size   | Memory Consumption | Number of Cells |
+| ----------- | ------------------ | --------------- |
+| 20 x 20     | 71.3 MB            | 400             |
+| 200 x 200   | 140 MB             | 40,000          |
+| 400 x 400   | 349 MB             | 160,000         |
+| 800 x 800   | 1.3 GB             | 640,000         |
+| 1000 x 1000 | 1.3 GB             | 1,000,000       |
+| 1300 x 1300 | 3.7 GB             | 1,690,000       |
+| 1500 x 1500 | 3.9 GB             | 2,250,000       |
+
+These metrics help in understanding how different grid sizes impact the memory consumption of the application.
