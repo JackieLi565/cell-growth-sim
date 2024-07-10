@@ -31,6 +31,11 @@ This project simulates the growth of a bacterial colony on a petri dish represen
 - A line graph that visualizes the growth rate of the total bacterial colony over time.
 - A table to display the total number of cells over time.
 
+4. User Experience
+
+- A URL to share petri dish settings to other users.
+- Local storage persistance to save petri dish sizes.
+
 ## Local Deployment
 
 First you will need to clone the repository:
@@ -67,7 +72,7 @@ Once the application is running, you can access it in your web browser at: [http
 
 ## Project Structure
 
-The following [tree](<https://tree.nathanfriend.io/?s=(%27op7s!(%27fancy!true~fullPOCtrailingSlasCrootDot!true)~I(%27I%27cell-Jsim2srcM40Reusabl946buttFQandGorm%20inpuKMfeOures3feOur94%202BH2BJrOe2Bresize-HMuNlsBBB8UNliNes6aGunc7Gor%20H%20genera7Mstyles*3stylesMApp.KxMmain.Kx2DockerfileB0Local%20Docker%20imag9setup2package.jsF3depedencies2K5.jsFBB8TypeScriptE2vite.5.K0Vit9buildE%27)~versiF!%271%27)W%200BW82%5Cn*3*0Project%204compFenK5cFfig6%20such%20aQ7NF8%23%209e%20B**Ch!false~E%205ura7FonG%20fHgridIsource!Jgrowth-KtsM2*NtiOatQs%20W*%20%01WQONMKJIHGFECB987654320*>) is a basic overview of the project structure.
+The following [tree](https://tree.nathanfriend.io/) is a basic overview of the project structure.
 
 ```
 .
@@ -88,7 +93,7 @@ The following [tree](<https://tree.nathanfriend.io/?s=(%27op7s!(%27fancy!true~fu
     └── vite.config.ts       # Vite build configuration
 ```
 
-Each reusable component contains the following [tree](<https://tree.nathanfriend.io/?s=(%27options!(%27fancy!true~fullPat3trailingSlas3rootDot!true)~4(%274%27252.tsx7%23%20React%20c8file5style.css7776%23%20C8related%20styles%27)~version!%271%27)6%200omponent2%5Bc0-name%5D3h!false~4source!5%5Cn*6*%207**80%20%0187654320*>) structure
+Each reusable component in the _Components_ directory contains the following tree structure.
 
 ```
 .
@@ -97,30 +102,54 @@ Each reusable component contains the following [tree](<https://tree.nathanfriend
     └── style.css               # Component related styles
 ```
 
-Where as each feature contains the following [tree](<https://tree.nathanfriend.io/?s=(%27optiCs!(%27fancy!true~fullPat5trailingSlas5rootDot!true)~9(%279%273name%5D2api8888*%23%20OptiCal6irectory%20for%20type7hook7and6ata6ependancies%2001B1A...0nBnA%27)~versiC!%271%27)*%20%20023compCent-2%5Cn*3%5Bfeature-4%5D.5h!false~6%20d7s%2C%208***9source!A4css2B4tsx0Con%01CBA987654320*>) structure
+Where as each feature in the _Features_ directory follows a recursive feature folder structure seen below.
 
 ```
 .
 └── [feature-name]
     ├── api                          # Optional directory for types, hooks, and data dependancies
     ├── [feature-component-1].tsx
-    ├── [feature-component-1].css
-    ├── ...
-    ├── [feature-component-n].tsx
-    └── [feature-component-n].css
+    ├── styles.css
+    └── [sub-feature-1]
+        ├── [sub-component-1].tsx
+        └── styles.css
 ```
+
+### Key Components
+
+Key components of the project include:
+
+- **Data.tsx**: Displays the metrics of the application via a Table and Graph component.
+- **Form.tsx**: A form component that allows the user to adjust petri dish settings.
+- **Grid.tsx**: A petri dish that allows the user to add or remove bacteria
+- **History.tsx**: A component that persists petri dish settings
+
+I also created custom hooks and utility functions to power the logic and data interactions of the components:
+
+- **useLocalStorage.ts**: A hook to access local storage to persist the history of all petri dishes
+- **useUrlParams.ts**: A hook to subscribe to URL query parameter changes for users to share petri dish settings via a URL.
+- **findNewCell.ts**: A function to search for empty adjacent cells
+
+Without these components, hooks, and functions, the application wouldn't function correctly or provide a good user experience, as they are essential for managing state, saving data, and enabling user interactions.
 
 ## Assumptions & Additions
 
-Throughout the development of this project the following options were made.
+Throughout the development of this project, I assumed that the bacteria do not change. However, the growth rate is determined by the material of the petri dish. For example, different intervals could mean that the bacteria grow quicker on a certain material (higher interval value) compared to another (lower interval value).
 
-- The size of a petri dish cannot change during a simulation
-- Once the the size of a petri dish changes the simulation state must restart
-- The growth rate of the bacteria could dynamically change during a simulation
+Based on this assumption, the form the user fills out represents the properties of the petri dish (dimensions - width and height - and material - interval).
 
-Based on the following assumptions, the following additions were made to cater to them:
-
-- Row and Column size inputs are disabled during a simulation
-- Responsive UI for mobile-web users
+As a result, the 'History' feature was implemented, allowing the user to save, delete, and use different types of petri dishes.
 
 ## Performance Metrics
+
+I decided to review the performance of my application based on the memory consumption.
+
+The performance metrics was based on the following environment:
+
+- OS: Windows 10 Home 64-bit
+- Browser: Chrome Version 126.0.6478.127
+- System memory: 32GB
+
+grid - 20 x 20 - 71.3 mb
+grid - 200 x 200 - 140 mb
+grid - 400 x 400 - 349 mb
