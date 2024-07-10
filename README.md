@@ -56,6 +56,8 @@ docker build -t jitto .
 docker run -p 3000:80 jitto
 ```
 
+Once the application is running, you can access it in your web browser at: [http://localhost:3000](http://localhost:3000)
+
 ### Using NPM
 
 If you prefer to use NPM:
@@ -68,7 +70,7 @@ npm run build
 npm run preview
 ```
 
-Once the application is running, you can access it in your web browser at: [http://localhost:3000](http://localhost:3000)
+The application can be now accessed at: [http://localhost:4173/](http://localhost:4173/)
 
 ## Project Structure
 
