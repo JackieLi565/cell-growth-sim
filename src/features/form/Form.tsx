@@ -66,6 +66,13 @@ export const Form: FC<FormProps> = ({ onStart, start }) => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    if (
+      (name === "rows" || name === "cols") &&
+      defaultParseUnsignedInt(value) < 1
+    ) {
+      return;
+    }
+
     setForm((prevData) => ({
       ...prevData,
       [name]: value,
