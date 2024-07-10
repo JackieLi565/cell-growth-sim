@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
 
+/**
+ * A React hook for accessing data from local storage
+ * @param {string} key - The selected data based on the key
+ * @param {T} initialValue - Initial value of local storage
+ * @returns - A React hook based on the data from local storage
+ */
 export const useLocalStorage = <T>(key: string, initialValue: T) => {
   const [error, setError] = useState<string>("");
   const [storedValue, setStoredValue] = useState<T>(initialValue);

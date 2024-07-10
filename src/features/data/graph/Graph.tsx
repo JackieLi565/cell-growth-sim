@@ -1,12 +1,23 @@
 import { FC, useEffect, useState } from "react";
 import { CellVsTime } from "../api/types";
 
+/**
+ * GraphProps interface represents the props for the Graph component.
+ * @property {CellVsTime[]} data - Array of data points with time and cell count
+ * @property {number} [height=400] - Optional height of the graph. Defaults to 400
+ * @property {number} [width=500] - Optional width of the graph. Defaults to 500
+ */
 interface GraphProps {
   data: CellVsTime[];
   height?: number;
   width?: number;
 }
 
+/**
+ * Graph component renders a graph visualizing cell growth over time.
+ * @param {GraphProps} props - Props of graph
+ * @returns {JSX.Element} - The SVG element representing the graph
+ */
 export const Graph: FC<GraphProps> = ({ data, height = 400, width = 500 }) => {
   const [dimensions, setDimensions] = useState({
     height,
@@ -24,11 +35,13 @@ export const Graph: FC<GraphProps> = ({ data, height = 400, width = 500 }) => {
   const maxTime = Math.max(...data.map((d) => d.time), 0);
   const maxCells = Math.max(...data.map((d) => d.cells), 0);
 
+  // Calcualte scale
   const xScale = (value: number) =>
     (value / maxTime) * (dimensions.width - padding * 2) + padding;
   const yScale = (value: number) =>
     height - padding - (value / maxCells) * (dimensions.height - padding * 2);
 
+  // Create SVG string
   const linePath = data
     .map((d, i) => {
       const x = xScale(d.time);

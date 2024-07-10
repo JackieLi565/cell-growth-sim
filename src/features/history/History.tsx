@@ -6,6 +6,10 @@ import { Button } from "../../components/button/Button";
 import { useUrlParams } from "../../hooks/useUrlParams";
 import { FormRule } from "../form/Form";
 
+/**
+ * History component taht renders petri dish history data from local storage
+ * @returns {JSX.Element} - The JSX element representing the History
+ */
 export const History: FC = () => {
   const { history, remove, clear } = useHistory();
   const { setParam } = useUrlParams();
@@ -20,11 +24,11 @@ export const History: FC = () => {
 
   return (
     <div className="history-container">
-      <h2>Previous Simulations</h2>
+      <h2>Saved Simulations</h2>
       {items.length ? (
         <>
           <Button onClick={() => clear()}>Clear</Button>
-          <div>
+          <div className="item-container">
             {items.map(([id, value]) => (
               <div className="history" key={id}>
                 <p>Interval: {value.interval}</p>

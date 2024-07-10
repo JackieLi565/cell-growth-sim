@@ -1,13 +1,15 @@
 .table-container {
-  max-height: 300px; /* Adjust the height as needed */
-  overflow-y: auto;
   border: 1px solid #ccc;
-  width: 100%; /* Ensure it fits the container */
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 20px;
 }
 
 th,

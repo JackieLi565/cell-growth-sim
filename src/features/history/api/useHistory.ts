@@ -17,6 +17,11 @@ export const HistoryContext = createContext<HistoryContextProps | undefined>(
   undefined
 );
 
+/**
+ * A React hook for accessing history context data
+ * @returns {HistoryContextProps} - History context
+ * @note - useHistory will throw if the hook is used in a child component outside of the HistoryContextProvider
+ */
 export const useHistory = () => {
   const context = useContext(HistoryContext);
   if (!context) {

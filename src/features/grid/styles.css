@@ -1,9 +1,4 @@
 .grid-container {
-  min-height: 210px;
-  min-width: 210px;
-  max-height: 210px;
-  max-width: 210px;
-  overflow: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,6 +6,7 @@
 
 .data-grid-container {
   display: flex;
+  flex-direction: column;
 }
 
 .grid {

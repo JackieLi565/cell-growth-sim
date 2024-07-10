@@ -1,3 +1,9 @@
+/**
+ *
+ * @param {string | null} value - A value to convert from a string to a number
+ * @param {number} [fallback=0] - A fallback value if the target value is unsuccessful
+ * @returns {number} - The number value of the original string
+ */
 export const defaultParseUnsignedInt = (
   value: string | null,
   fallback: number = 0

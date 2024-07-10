@@ -15,17 +15,33 @@ import { useUrlParams } from "../../hooks/useUrlParams";
 import { defaultParseUnsignedInt } from "../../utils/defaultParseUnsignedInt";
 import { useHistory } from "../history/api/useHistory";
 
+/**
+ * FormRule interface represents the properties of the form.
+ * @property {number} interval - The growth rate of the petri dish
+ * @property {number} rows - The number of row inputs
+ * @property {number} cols - The number of column inputs
+ */
 export interface FormRule {
   interval: number;
   rows: number;
   cols: number;
 }
 
+/**
+ * FormProps interface represents the props for the Form component.
+ * @property {function} onStart - A function to control the activity of the program
+ * @property {boolean} start - A parameter to determine if the program has started
+ */
 export interface FormProps {
   onStart: Dispatch<SetStateAction<boolean>>;
   start: boolean;
 }
 
+/**
+ * Form component renders a form displaying petri dish setting inputs.
+ * @param {FormProps} props - The properties for the Form component
+ * @returns {JSX.Element} - The JSX element representing the Form
+ */
 export const Form: FC<FormProps> = ({ onStart, start }) => {
   const { add } = useHistory();
   const { params, setParam } = useUrlParams();
@@ -64,6 +80,8 @@ export const Form: FC<FormProps> = ({ onStart, start }) => {
 
   return (
     <form className="form-container" onSubmit={handleSubmit}>
+      <h2>Petri Dish Settings</h2>
+
       <Input
         label="Interval"
         min={1}

@@ -9,11 +9,15 @@ const App: FC = () => {
   const [start, setStart] = useState(false);
   return (
     <div className="app">
+      <div className="history-container">
+        <HistoryProvider>
+          <Form start={start} onStart={setStart} />
+          <div>
+            <History />
+          </div>
+        </HistoryProvider>
+      </div>
       <Grid start={start} />
-      <HistoryProvider>
-        <Form start={start} onStart={setStart} />
-        <History />
-      </HistoryProvider>
     </div>
   );
 };

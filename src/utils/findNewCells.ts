@@ -5,6 +5,12 @@ export interface Node {
 
 export type Direction = [number, number];
 
+/**
+ *
+ * @param {number[][]} grid - The grid to find new cells within
+ * @param {Node} startNode - The starting node
+ * @returns {Node[]} - New cells to traverse
+ */
 export const findNewCells = (grid: number[][], startNode: Node) => {
   const rows = grid.length;
   const cols = grid[0].length;

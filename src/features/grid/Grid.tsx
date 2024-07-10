@@ -4,16 +4,34 @@ import { useUrlParams } from "../../hooks/useUrlParams";
 import { createGrid } from "../../utils/createGrid";
 import { defaultParseUnsignedInt } from "../../utils/defaultParseUnsignedInt";
 import { Cell, CellValue } from "./cell/Cell";
-import { FC, useEffect, useState } from "react";
+import { CSSProperties, FC, useEffect, useState } from "react";
 import { findNewCells, Node } from "../../utils/findNewCells";
 import { CellVsTime } from "../data/api/types";
 import { Button } from "../../components/button/Button";
 import { Data } from "../data/Data";
+
+/**
+ *  GridProps interface represents the props for the Grid component.
+ * @property {boolean} start - A parameter to determine if the program has started
+ * @property {number} [height=400] - Optional height of the grid. Defaults to 400
+ * @property {boolean} [overflow=true] - Optional overflow scroll bar of the table
+ */
 interface GridProps {
   start: boolean;
+  height?: number;
+  overflow?: boolean;
 }
 
-export const Grid: FC<GridProps> = ({ start }) => {
+/**
+ * Grid component renders a grid displaying clickable cells (petri dish).
+ * @param {GridProps} props - The properties for the Table component
+ * @returns {JSX.Element} - The JSX element representing the table
+ */
+export const Grid: FC<GridProps> = ({
+  start,
+  height = 400,
+  overflow = true,
+}) => {
   const { params } = useUrlParams();
   const [running, setRunning] = useState(start);
   const [grid, setGrid] = useState<CellValue[][]>(createGrid(20, 20));
@@ -80,10 +98,19 @@ export const Grid: FC<GridProps> = ({ start }) => {
     });
   };
 
+  const styles: CSSProperties = {
+    height,
+  };
+
+  if (overflow) {
+    styles.overflow = "auto";
+  }
+
   return (
     <div>
       <div className="data-grid-container">
-        <div className="grid-container">
+        <Data data={growthData} />
+        <div className="grid-container" style={styles}>
           <div
             className="grid"
             style={{
@@ -106,7 +133,6 @@ export const Grid: FC<GridProps> = ({ start }) => {
             ))}
           </div>
         </div>
-        <Data data={growthData} />
       </div>
 
       <Button
