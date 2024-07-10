@@ -2,8 +2,9 @@ import "./styles.css";
 
 import { FC } from "react";
 
+export type CellValue = 0 | 1;
 export interface CellProps {
-  value: 0 | 1;
+  value: CellValue;
   row: number;
   col: number;
   onCellClick: (row: number, col: number) => void;

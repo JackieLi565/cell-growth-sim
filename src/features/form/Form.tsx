@@ -1,6 +1,14 @@
 import "./styles.css";
 
-import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  FC,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { Input } from "../../components/input/Input";
 import { Button } from "../../components/button/Button";
 import { useUrlParams } from "../../hooks/useUrlParams";
@@ -13,24 +21,30 @@ export interface FormRule {
   cols: number;
 }
 
-export const Form: FC = () => {
+export interface FormProps {
+  onStart: Dispatch<SetStateAction<boolean>>;
+  start: boolean;
+}
+
+export const Form: FC<FormProps> = ({ onStart, start }) => {
   const { add } = useHistory();
   const { params, setParam } = useUrlParams();
+  const [running, setRunning] = useState(start);
   const [form, setForm] = useState<FormRule>({
     interval: 1000,
-    rows: 1,
-    cols: 1,
+    rows: 20,
+    cols: 20,
   });
 
   useEffect(() => {
-    const interval = defaultParseUnsignedInt(params.get("interval"), 1000);
-    const rows = defaultParseUnsignedInt(params.get("rows"), 1);
-    const cols = defaultParseUnsignedInt(params.get("cols"), 1);
+    setRunning(start);
+  }, [start]);
 
+  useEffect(() => {
     setForm({
-      interval,
-      rows,
-      cols,
+      interval: defaultParseUnsignedInt(params.get("interval"), 1000),
+      rows: defaultParseUnsignedInt(params.get("rows"), 20),
+      cols: defaultParseUnsignedInt(params.get("cols"), 20),
     });
   }, [params]);
 
@@ -71,7 +85,18 @@ export const Form: FC = () => {
         value={form.cols}
         onChange={handleChange}
       />
-      <Button type="submit">Submit</Button>
+      {running ? (
+        <Button type="button" onClick={() => onStart(false)}>
+          Pause
+        </Button>
+      ) : (
+        <>
+          <Button type="button" onClick={() => onStart(true)}>
+            Start
+          </Button>
+          <Button type="submit">Save Simulation</Button>
+        </>
+      )}
     </form>
   );
 };

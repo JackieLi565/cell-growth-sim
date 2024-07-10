@@ -1,30 +1,43 @@
-import { CellVsTime } from "../data/api/types";
-import { Cell } from "./cell/Cell";
 import "./styles.css";
 
-import { FC, useState } from "react";
-
+import { useUrlParams } from "../../hooks/useUrlParams";
+import { createGrid } from "../../utils/createGrid";
+import { defaultParseUnsignedInt } from "../../utils/defaultParseUnsignedInt";
+import { Cell, CellValue } from "./cell/Cell";
+import { FC, useEffect, useState } from "react";
+import { findNewCells, Node } from "../../utils/findNewCells";
+import { CellVsTime } from "../data/api/types";
+import { Button } from "../../components/button/Button";
+import { Data } from "../data/Data";
 interface GridProps {
-  running: boolean;
+  start: boolean;
 }
 
-export const Grid: FC<GridProps> = ({ running }) => {
-  const [grid, setGrid] = useState<number[][]>(createGrid(80, 80));
-  const [growth, _] = useState<number>(1000);
+export const Grid: FC<GridProps> = ({ start }) => {
+  const { params } = useUrlParams();
+  const [running, setRunning] = useState(start);
+  const [grid, setGrid] = useState<CellValue[][]>(createGrid(20, 20));
+  const [growth, setGrowth] = useState(1000);
   const [growthData, setGrowthData] = useState<CellVsTime[]>([]);
   const [time, setTime] = useState<number>(0);
+
+  useEffect(() => {
+    setRunning(start);
+  }, [start]);
+
+  useEffect(() => {
+    const interval = defaultParseUnsignedInt(params.get("interval"), 1000);
+    const rows = defaultParseUnsignedInt(params.get("rows"), 20);
+    const cols = defaultParseUnsignedInt(params.get("cols"), 20);
+    setGrid((prev) => createGrid(rows, cols, prev));
+    setGrowth(interval);
+  }, [params]);
 
   useEffect(() => {
     if (!running) return;
 
     const timer = setInterval(() => {
       setGrid((prevGrid) => {
-        // check if grid is full
-        const firstEle = prevGrid.flat().sort((a, b) => a - b)[0];
-        if (firstEle !== 0) {
-          setRunning(false);
-        }
-
         const newGrid = prevGrid.map((row) => row.slice());
         const cellsToUpdate: Node[] = [];
 
@@ -59,27 +72,55 @@ export const Grid: FC<GridProps> = ({ running }) => {
     return () => clearInterval(timer);
   }, [running, growth, time, growthData]);
 
+  const handleCellClick = (row: number, col: number) => {
+    setGrid((prevGrid) => {
+      const newGrid = prevGrid.map((row) => row.slice());
+      newGrid[row][col] = newGrid[row][col] ? 0 : 1;
+      return newGrid;
+    });
+  };
+
   return (
-    <div
-      className="grid"
-      style={{
-        gridTemplateRows: `repeat(${grid.length}, 5px)`,
-        gridTemplateColumns: `repeat(${grid[0].length}, 5px)`,
-      }}
-    >
-      {grid.map((items, row) => (
-        <div key={row} className="row">
-          {items.map((value, col) => (
-            <Cell
-              key={`${row}-${col}`}
-              value={value}
-              row={row}
-              col={col}
-              onCellClick={console.log}
-            />
-          ))}
+    <div>
+      <div className="data-grid-container">
+        <div className="grid-container">
+          <div
+            className="grid"
+            style={{
+              gridTemplateRows: `repeat(${grid.length}, 10px)`,
+              gridTemplateColumns: `repeat(${grid[0].length}, 10px)`,
+            }}
+          >
+            {grid.map((items, row) => (
+              <div key={row} className="row">
+                {items.map((value, col) => (
+                  <Cell
+                    key={`${row}-${col}`}
+                    value={value}
+                    row={row}
+                    col={col}
+                    onCellClick={handleCellClick}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
+        <Data data={growthData} />
+      </div>
+
+      <Button
+        onClick={() =>
+          setGrid(
+            createGrid(
+              defaultParseUnsignedInt(params.get("rows"), 20),
+              defaultParseUnsignedInt(params.get("cols"), 20)
+            )
+          )
+        }
+      >
+        Reset Petri Dish
+      </Button>
     </div>
   );
 };
