@@ -163,3 +163,5 @@ Below is a table summarizing the memory consumption for different grid sizes:
 | 1500 x 1500 | 3.9 GB             | 2,250,000       |
 
 These metrics help in understanding how different grid sizes impact the memory consumption of the application.
+
+To prevent misuse of the application and potential crashes due to high volumes of cells, a 'limit' checkbox was introduced. By default, it restricts users to the recommended maximum of 800x800 cells, but users can uncheck the checkbox if they need to exceed this limit.

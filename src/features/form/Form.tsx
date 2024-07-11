@@ -14,6 +14,7 @@ import { Button } from "../../components/button/Button";
 import { useUrlParams } from "../../hooks/useUrlParams";
 import { defaultParseUnsignedInt } from "../../utils/defaultParseUnsignedInt";
 import { useHistory } from "../history/api/useHistory";
+import { Checkbox } from "../../components/checkbox/Checkbox";
 
 /**
  * FormRule interface represents the properties of the form.
@@ -46,6 +47,7 @@ export const Form: FC<FormProps> = ({ onStart, start }) => {
   const { add } = useHistory();
   const { params, setParam } = useUrlParams();
   const [running, setRunning] = useState(start);
+  const [limit, setLimit] = useState(true);
   const [form, setForm] = useState<FormRule>({
     interval: 1000,
     rows: 20,
@@ -85,6 +87,20 @@ export const Form: FC<FormProps> = ({ onStart, start }) => {
     add(form);
   };
 
+  const handleLimit = (e: ChangeEvent<HTMLInputElement>) => {
+    setLimit(e.target.checked);
+
+    if (e.target.checked) {
+      if (form.rows > 800) {
+        setParam("rows", String(800));
+      }
+
+      if (form.cols > 800) {
+        setParam("cols", String(800));
+      }
+    }
+  };
+
   return (
     <form className="form-container" onSubmit={handleSubmit}>
       <h2>Petri Dish Settings</h2>
@@ -99,6 +115,7 @@ export const Form: FC<FormProps> = ({ onStart, start }) => {
       <Input
         label="Rows"
         min={1}
+        {...(limit ? { max: 800 } : {})}
         name="rows"
         value={form.rows}
         onChange={handleChange}
@@ -106,22 +123,26 @@ export const Form: FC<FormProps> = ({ onStart, start }) => {
       <Input
         label="Columns"
         min={1}
+        {...(limit ? { max: 800 } : {})}
         name="cols"
         value={form.cols}
         onChange={handleChange}
       />
-      {running ? (
-        <Button type="button" onClick={() => onStart(false)}>
-          Pause
-        </Button>
-      ) : (
-        <>
-          <Button type="button" onClick={() => onStart(true)}>
-            Start
+      <div className="control-container">
+        {running ? (
+          <Button type="button" onClick={() => onStart(false)}>
+            Pause
           </Button>
-          <Button type="submit">Save Simulation</Button>
-        </>
-      )}
+        ) : (
+          <>
+            <Button type="button" onClick={() => onStart(true)}>
+              Start
+            </Button>
+            <Button type="submit">Save Simulation</Button>
+          </>
+        )}
+        <Checkbox label="Limit" checked={limit} onChange={handleLimit} />
+      </div>
     </form>
   );
 };
