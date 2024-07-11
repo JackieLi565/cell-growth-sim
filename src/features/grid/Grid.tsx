@@ -136,16 +136,19 @@ export const Grid: FC<GridProps> = ({
       </div>
 
       <Button
-        onClick={() =>
+        onClick={() => {
+          const data: CellVsTime[] = [];
+          setGrowthData(data);
           setGrid(
             createGrid(
               defaultParseUnsignedInt(params.get("rows"), 20),
               defaultParseUnsignedInt(params.get("cols"), 20)
             )
-          )
-        }
+          );
+          setTime(0);
+        }}
       >
-        Reset Petri Dish
+        Reset
       </Button>
     </div>
   );
